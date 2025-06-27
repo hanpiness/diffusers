@@ -1121,7 +1121,8 @@ class FluxKontextPipeline(
             latents = (latents / self.vae.config.scaling_factor) + self.vae.config.shift_factor
             image = self.vae.decode(latents, return_dict=False)[0]
             image = self.image_processor.postprocess(image, output_type=output_type)
-            image = image.resize((original_width, original_height))
+            for i in len(image):
+                image[i] = image[i].resize((original_width, original_height))
         # Offload all models
         self.maybe_free_model_hooks()
 
